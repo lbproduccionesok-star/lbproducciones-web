@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111111">
+<title>LB Producciones | Pasión por el arte</title>
+<style>
+:root{--bg:#101010;--panel:#1a1a1a;--gold:#d7b56d;--text:#f7f3ea;--muted:#c4bfb4;--line:#3a3325;--green:#25d366}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+a{color:inherit}
+header{position:sticky;top:0;z-index:10;background:rgba(16,16,16,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+.nav{max-width:1080px;margin:auto;padding:14px 20px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:1.5px;color:var(--gold);font-size:1.15rem;text-decoration:none}
+nav{display:flex;gap:14px;flex-wrap:wrap}
+nav a{font-size:.92rem;text-decoration:none;color:var(--muted)}
+nav a:hover{color:var(--gold)}
+main{max-width:1080px;margin:auto;padding:0 20px}
+.hero{padding:76px 0 62px;min-height:390px;display:flex;align-items:center}
+.eyebrow{text-transform:uppercase;letter-spacing:3px;color:var(--gold);font-size:.78rem;font-weight:bold}
+h1{font-size:clamp(2.4rem,7vw,4.8rem);line-height:1.03;max-width:780px;margin:14px 0 18px}
+h2{font-size:clamp(1.6rem,4vw,2.35rem);margin:0 0 12px}
+p{color:var(--muted);margin:0 0 18px}
+.hero p{font-size:1.1rem;max-width:650px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border-radius:9px;border:1px solid var(--gold);text-decoration:none;font-weight:700;transition:transform .15s ease,background .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:var(--gold);color:#17130b}
+.btn.whatsapp{border-color:var(--green);background:var(--green);color:#07210f}
+.btn.secondary{color:var(--text)}
+section{padding:44px 0;border-top:1px solid var(--line)}
+.intro{max-width:700px;margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.card h3{margin:0 0 8px;font-size:1.25rem;color:var(--gold)}
+.card p{flex:1}
+.card .btn{margin-top:10px;width:100%}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.gallery div{min-height:120px;border:1px dashed #6a5834;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;color:var(--muted);background:linear-gradient(145deg,#1c1a16,#131313)}
+.contact{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding:25px 20px;text-align:center;color:var(--muted);font-size:.9rem}
+.small{font-size:.9rem}
+@media(max-width:650px){.hero{padding:54px 0 42px;min-height:unset}.grid{grid-template-columns:1fr}.gallery{grid-template-columns:1fr}nav{gap:10px}nav a{font-size:.82rem}.nav{align-items:flex-start}}
+
+/* Panel oculto de fotos/videos */
+#mediaFab{position:fixed;bottom:16px;right:16px;width:44px;height:44px;border-radius:50%;
+  background:var(--panel);border:1px solid var(--line);color:var(--muted);font-size:19px;
+  cursor:pointer;opacity:.35;transition:.2s;z-index:60}
+#mediaFab:hover{opacity:1;border-color:var(--gold)}
+#mediaModal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;
+  align-items:center;justify-content:center;z-index:100;padding:16px}
+.media-card{width:100%;max-width:480px;max-height:90vh;overflow:auto;position:relative}
+.media-card h2{color:var(--gold)}
+.media-card label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:5px}
+.media-card input[type=password]{width:100%;background:#101010;border:1px solid var(--line);color:var(--text);
+  padding:11px 13px;border-radius:9px;font-size:15px;outline:none}
+.media-card input[type=password]:focus{border-color:var(--gold)}
+.media-btn{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:46px;
+  padding:11px 18px;border-radius:9px;border:0;background:var(--gold);color:#17130b;
+  font-weight:700;font-size:15px;cursor:pointer;transition:transform .15s ease}
+.media-btn:hover{transform:translateY(-1px)}
+.media-msg{padding:10px 13px;border-radius:9px;font-size:14px;margin-bottom:12px;display:none}
+.media-msg.ok{display:block;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.45);color:var(--green)}
+.media-msg.err{display:block;background:rgba(220,80,80,.1);border:1px solid rgba(220,80,80,.45);color:#ff9a9a}
+.dropzone{border:2px dashed var(--line);border-radius:12px;padding:26px;text-align:center;
+  color:var(--muted);cursor:pointer;transition:.2s}
+.dropzone:hover,.dropzone.over{border-color:var(--gold);color:var(--text);background:rgba(215,181,109,.07)}
+.file-item{display:flex;justify-content:space-between;align-items:center;gap:8px;
+  background:#101010;border:1px solid var(--line);border-radius:10px;
+  padding:8px 12px;margin-top:8px;font-size:13.5px}
+.progress{height:6px;background:#101010;border-radius:99px;margin-top:14px;overflow:hidden;border:1px solid var(--line)}
+.progress div{height:100%;width:0%;background:var(--gold);transition:.3s}
+.close-x{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer}
+.close-x:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="brand" href="#inicio">LB PRODUCCIONES</a>
+    <nav aria-label="Navegación principal">
+      <a href="#eventos">Eventos</a><a href="#shows">Shows</a><a href="#cantantes">Show de Cantantes</a><a href="#clases">Clases</a><a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero" id="inicio" style="border-top:0">
+    <div>
+      <div class="eyebrow">Producción artística independiente</div>
+      <h1>Pasión por el arte.<br><span style="color:var(--gold)">Experiencias que se sienten.</span></h1>
+      <p>Diseñamos eventos, espectáculos y experiencias artísticas para celebrar, compartir y emocionar.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://wa.me/541124042597?text=Hola%2C%20me%20contacto%20con%20LB%20Producciones%20porque%20quisiera%20recibir%20informaci%C3%B3n%20y%20un%20presupuesto%20personalizado.%20%C2%A1Muchas%20gracias%21" target="_blank" rel="noopener">Preparar consulta ↗</a>
+        <a class="btn secondary" href="#servicios">Conocé nuestros servicios</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicios">
+    <div class="intro"><div class="eyebrow">Qué hacemos</div><h2>Propuestas para cada ocasión</h2><p>Elegí el servicio que te interesa y escribinos directamente por WhatsApp. Cada botón abre un mensaje preparado para esa consulta.</p></div>
+    <div class="grid">
+      <article class="card" id="eventos">
+        <h3>Eventos privados y sociales</h3>
+        <p>Cumpleaños, casamientos, celebraciones y propuestas personalizadas según tu idea, espacio y presupuesto.</p>
+        <a class="btn whatsapp" href="https://wa.me/541124042597?text=Hola%2C%20me%20contacto%20con%20LB%20Producciones%20para%20consultar%20por%20un%20evento%20privado%20o%20social.%20%C2%BFPodr%C3%ADan%20brindarme%20informaci%C3%B3n%20y%20un%20presupuesto%3F" target="_blank" rel="noopener">Consultar por mi evento ↗</a>
+      </article>
+      <article class="card" id="shows">
+        <h3>Shows en vivo</h3>
+        <p>Espectáculos para bares, restaurantes, teatros, espacios culturales y eventos especiales.</p>
+        <a class="btn whatsapp" href="https://wa.me/541124042597?text=Hola%2C%20quisiera%20recibir%20informaci%C3%B3n%20para%20contratar%20un%20show%20en%20vivo%20de%20LB%20Producciones%20para%20mi%20bar%2C%20restaurante%2C%20teatro%20o%20evento." target="_blank" rel="noopener">Contratar un show ↗</a>
+      </article>
+      <article class="card" id="cantantes">
+        <h3>Show de Cantantes</h3>
+        <p>Un certamen artístico para disfrutar del talento, la emoción y la música en vivo. Encontrá novedades en nuestro canal.</p>
+        <a class="btn secondary" href="https://youtube.com/@lbproducciones2025" target="_blank" rel="noopener">Ver canal de YouTube ↗</a>
+        <a class="btn whatsapp" href="https://wa.me/541124042597?text=Hola%2C%20quisiera%20recibir%20informaci%C3%B3n%20sobre%20Show%20de%20Cantantes%20y%20sus%20pr%C3%B3ximas%20actividades." target="_blank" rel="noopener">Consultar por el certamen ↗</a>
+      </article>
+      <article class="card" id="clases">
+        <h3>Clases de canto</h3>
+        <p>Clases individuales y grupales con el profe Leon Biass, para explorar tu voz y desarrollar tu interpretación.</p>
+        <a class="btn whatsapp" href="https://wa.me/541124042597?text=Hola%2C%20quisiera%20recibir%20informaci%C3%B3n%20sobre%20las%20clases%20de%20canto%20con%20el%20profe%20Leon%20Biass.%20%C2%BFMe%20cuentan%20horarios%20y%20valores%3F" target="_blank" rel="noopener">Consultar por las clases ↗</a>
+      </article>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <div class="intro"><div class="eyebrow">Nuestros momentos</div><h2>Galería</h2><p>Espacio preparado para sumar fotografías y videos de galas, eventos y producciones.</p></div>
+    <div class="gallery"><div>Fotos de eventos</div><div>Shows en vivo</div><div>Galas y artistas</div></div>
+<div class="galeria-fotos"> <article class="card"> <img src="imagenes/foto1.jpg" alt="Artistas en vivo en LB Producciones" style="width:100%; height:240px; object-fit:cover; border-radius:12px;"> <h3>Shows en vivo</h3> <p>Momentos únicos junto a nuestros artistas.</p> </article> </div>
+  </section>
+
+  <section id="contacto">
+    <div class="contact">
+      <div><div class="eyebrow">Hablemos</div><h2>¿Preparamos algo juntos?</h2><p class="small">Contanos tu idea y te ayudamos a convertirla en una experiencia artística.</p></div>
+      <a class="btn primary" href="https://wa.me/541124042597?text=Hola%2C%20me%20contacto%20con%20LB%20Producciones%20porque%20quisiera%20recibir%20informaci%C3%B3n%20y%20un%20presupuesto%20personalizado.%20%C2%A1Muchas%20gracias%21" target="_blank" rel="noopener">Preparar consulta por WhatsApp ↗</a>
+    </div>
+    <p class="small" style="margin-top:12px">El botón abre WhatsApp con un mensaje preparado; vos o el cliente deben tocar “Enviar” para iniciar la conversación.</p>
+  </section>
+</main>
+<!-- PANEL OCULTO: boton casi invisible abajo a la derecha + Ctrl+Shift+M -->
+<button id="mediaFab" onclick="mostrarPanelMedios()" aria-hidden="true"
+  style="position:fixed;bottom:4px;right:4px;width:24px;height:24px;background:transparent;border:none;cursor:pointer;z-index:60;opacity:.18;font-size:12px;color:#8a7a55;padding:0;line-height:1">·</button>
+<div id="mediaModal" onclick="if(event.target===this)cerrarPanelMedios()">
+  <div class="card media-card">
+    <button class="close-x" onclick="cerrarPanelMedios()">✕</button>
+    <h2 style="margin-top:0">📷 Panel de Medios</h2>
+    <div id="mediaGate">
+      <p style="font-size:.92rem">Área restringida. Ingresá la contraseña.</p>
+      <div id="mediaGateMsg" class="media-msg"></div>
+      <div style="margin-bottom:12px"><input type="password" id="mediaPass" placeholder="Contraseña" onkeydown="if(event.key==='Enter'){intentarMedia()}"></div>
+      <button class="media-btn" onclick="intentarMedia()">Ingresar</button>
+    </div>
+    <div id="mediaZone" style="display:none">
+      <div class="dropzone" id="dropzone"
+        onclick="document.getElementById('mediaInput').click()"
+        ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFiles(event)">
+        📸🎬<br><b>Arrastrá acá tus fotos o videos</b> desde tu dispositivo<br>
+        <span style="font-size:.8rem">(o tocá para elegirlos a mano, podés elegir varios)</span>
+      </div>
+      <input type="file" id="mediaInput" accept="image/*,video/*" multiple style="display:none" onchange="onMediaSelect(this)">
+      <div id="mediaList"></div>
+      <div class="progress" id="mediaProgress" style="display:none"><div></div></div>
+      <button class="media-btn" style="margin-top:14px" onclick="subirMedios()">⬆️ Subir archivos a Drive</button>
+      <div id="mediaResult" style="margin-top:12px;font-size:.92rem"></div>
+    </div>
+  </div>
+</div>
+<footer>© 2026 LB Producciones · Pasión por el arte</footer>
+<script>
+// ============================================
+// PEGÁ ACÁ la URL de tu script de Google (la misma
+// que usa la planilla de inscripción, termina en /exec)
+const GOOGLE_SCRIPT_URL = 'PEGAR_ACA_LA_URL_DE_GOOGLE';
+// CONTRASEÑA DEL PANEL ↓↓↓
+const MEDIA_PASS = 'lb2026';
+// ============================================
+let mediaFiles = [];
+
+// ABRIR EL PANEL: Ctrl + Shift + M (no hay boton visible)
+document.addEventListener('keydown', function(e){
+  if(e.ctrlKey && e.shiftKey && (e.key === 'M' || e.key === 'm')){
+    mostrarPanelMedios();
+  }
+});
+
+function dragOver(e){ e.preventDefault(); e.currentTarget.classList.add('over'); }
+function dragLeave(e){ e.currentTarget.classList.remove('over'); }
+
+// Soltar archivos arrastrados
+function dropFiles(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  const files = Array.from(e.dataTransfer.files).filter(f =>
+    f.type.startsWith('image/') || f.type.startsWith('video/'));
+  if(!files.length){
+    alert('Solo se permiten fotos y videos.');
+    return;
+  }
+  mediaFiles = mediaFiles.concat(files);
+  renderMediaList();
+}
+
+function renderMediaList(){
+  document.getElementById('mediaList').innerHTML = mediaFiles.map(f =>
+    '<div class="file-item"><span>📄 ' + f.name + '</span><span style="color:var(--muted)">' +
+    (f.size/1048576).toFixed(1) + ' MB</span></div>').join('');
+}
+
+function mostrarPanelMedios(){
+  document.getElementById('mediaModal').style.display = 'flex';
+  if(sessionStorage.getItem('media_ok') === '1'){
+    document.getElementById('mediaGate').style.display = 'none';
+    document.getElementById('mediaZone').style.display = '';
+  }
+}
+function cerrarPanelMedios(){ document.getElementById('mediaModal').style.display = 'none'; }
+
+function intentarMedia(){
+  if(document.getElementById('mediaPass').value === MEDIA_PASS){
+    sessionStorage.setItem('media_ok','1');
+    document.getElementById('mediaGate').style.display = 'none';
+    document.getElementById('mediaZone').style.display = '';
+  } else {
+    const el = document.getElementById('mediaGateMsg');
+    el.textContent = '❌ Contraseña incorrecta.';
+    el.className = 'media-msg err';
+    setTimeout(()=>{el.className='media-msg';el.textContent='';},3000);
+  }
+}
+
+function onMediaSelect(input){
+  mediaFiles = mediaFiles.concat(Array.from(input.files));
+  renderMediaList();
+}
+
+async function subirMedios(){
+  if(!mediaFiles.length){ alert('Elegí al menos un archivo.'); return; }
+  if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.indexOf('http') !== 0){
+    alert('Todavía no configuraste la URL de Google. Pegala en el código donde dice GOOGLE_SCRIPT_URL.');
+    return;
+  }
+  const bar = document.getElementById('mediaProgress');
+  const barFill = bar.querySelector('div');
+  const result = document.getElementById('mediaResult');
+  bar.style.display = ''; result.innerHTML = '';
+  let okCount = 0;
+
+  for(let i = 0; i < mediaFiles.length; i++){
+    const f = mediaFiles[i];
+    result.innerHTML += '<div class="file-item"><span>⏳ ' + f.name + '</span><span>Subiendo…</span></div>';
+    barFill.style.width = Math.round(i / mediaFiles.length * 100) + '%';
+    try{
+      const dataUrl = await new Promise((res, rej) => {
+        const r = new FileReader();
+        r.onload = () => res(r.result);
+        r.onerror = rej;
+        r.readAsDataURL(f);
+      });
+      const base64 = dataUrl.split(',')[1];
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {'Content-Type': 'text/plain'},
+        body: JSON.stringify({action:'upload', filename: f.name, mimeType: f.type, data: base64})
+      });
+      okCount++;
+      result.innerHTML += '<div class="file-item" style="border-color:rgba(37,211,102,.5)"><span>✅ ' + f.name + '</span><span style="color:var(--green)">Listo</span></div>';
+    }catch(err){
+      result.innerHTML += '<div class="file-item" style="border-color:rgba(220,80,80,.5)"><span>❌ ' + f.name + '</span><span style="color:#ff9a9a">Error</span></div>';
+    }
+  }
+  barFill.style.width = '100%';
+  result.innerHTML += '<div style="margin-top:10px;color:var(--green);font-weight:700">📁 ' + okCount + ' de ' + mediaFiles.length + ' archivos enviados a tu Google Drive.</div>';
+  mediaFiles = [];
+  document.getElementById('mediaInput').value = '';
+  document.getElementById('mediaList').innerHTML = '';
+  setTimeout(()=>{ bar.style.display = 'none'; barFill.style.width = '0%'; }, 2500);
+}
+</script>
+</body>
+</html>
